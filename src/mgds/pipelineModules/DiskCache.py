@@ -68,8 +68,11 @@ class DiskCache(
         return self.split_names + self.aggregate_names
 
     def __string_key(self, data: list[Any]) -> str:
-        json_data = json.dumps(data, sort_keys=True, ensure_ascii=True, separators=(',', ':'), indent=None)
-        return hashlib.sha256(json_data.encode('utf-8')).hexdigest()
+        dirname=data[0]
+        if dirname.startswith("/"):
+            return dirname.replace("/", "")
+        print("ERROR: expected full directory path but instead got:")
+        print(dirname)
 
     def __init_variations(self):
         """
